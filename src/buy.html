@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        请输入银行卡余额<input type="text" id="card" />
+        <!-- 请输入手机心理预期
+        <input type="text" id="hart" /> -->
+        <button onclick="buy1()">买手机</button>
+    </div>
+    <div>
+        <br><br>
+        <h4>消费记录：</h4>
+    </div>
+    <div id="log"></div>
+</body>
+
+</html>
+<script>
+    const phone = 1000;
+    // var card = 100000;
+    const peijian = 100;
+    const hart = 1500;
+    const shui = 0.01;
+
+    function buy1() {
+        card = window.document.getElementById('card').value;
+        buy(card)
+    }
+
+    function buy(card) {
+        clearLogg(); //清理log div内的内容
+        var totalConsumption = 0; //记录总花费
+
+
+        while (card > hart) {
+            // console.log(3)
+            if (hart > phone) {
+                //本次花费 手机+ 配件
+                var showMoney = phone + peijian
+
+                //交税
+                showMoney = calculateTax(showMoney)
+
+                //累积计算每次消费
+                totalConsumption += showMoney
+
+                //更新卡余额
+                card = card - showMoney
+
+                //将本次消费记录传入dom，在页面显示一条数据
+                logg('<span>您购买了一部手机花费了$' + showMoney +
+                    ",您银行卡余额为$" + card + '</span>')
+            }
+        }
+        logg('您本次购买共花费了: $' + totalConsumption)
+        logg('您的可用余额不足,无法再次购买')
+    }
+
+
+    //往dom里传入信息
+    function logg(str) {
+        var thi = window.document.getElementById('log');
+        var pp = window.document.createElement('p') //创建p元素
+        pp.innerHTML = str
+        thi.append(pp)
+    }
+
+    //交税
+    function calculateTax(num) {
+        return num + num * shui
+    }
+
+    //清空信息
+    function clearLogg() {
+        var thi = window.document.getElementById('log');
+        thi.innerHTML = ''
+    }
+</script>
